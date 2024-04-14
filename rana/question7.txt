@@ -1,0 +1,38 @@
+use std::io;
+use std::collections::BinaryHeap;
+
+fn kth_smallest(nums: &[i32], k: usize) -> Option<i32> {
+    if k > nums.len() {
+        return None;
+    }
+    
+    let mut min_heap = BinaryHeap::new();
+    for &num in nums {
+        min_heap.push(num);
+        if min_heap.len() > k {
+            min_heap.pop();
+        }
+    }
+    
+    min_heap.pop()
+}
+
+fn main() {
+    println!("Enter numbers separated by spaces:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+
+    let nums: Vec<i32> = input.trim().split_whitespace()
+        .map(|s| s.parse().expect("Invalid number"))
+        .collect();
+
+    println!("Enter the value of k:");
+    let mut k_input = String::new();
+    io::stdin().read_line(&mut k_input).expect("Failed to read line");
+    let k: usize = k_input.trim().parse().expect("Invalid number");
+
+    match kth_smallest(&nums, k) {
+        Some(kth) => println!("The {}th smallest element is: {}", k, kth),
+        None => println!("Invalid input!"),
+    }
+}

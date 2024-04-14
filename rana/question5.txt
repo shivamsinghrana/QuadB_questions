@@ -1,0 +1,25 @@
+use std::io;
+
+fn median(nums: &[i32]) -> f64 {
+    let len = nums.len();
+    if len % 2 == 0 {
+        let mid = len / 2;
+        (nums[mid - 1] as f64 + nums[mid] as f64) / 2.0
+    } else {
+        nums[len / 2] as f64
+    }
+}
+
+fn main() {
+    println!("Enter the sorted array of integers separated by space:");
+
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+
+    let nums: Vec<i32> = input.trim().split_whitespace()
+        .map(|s| s.parse().expect("Invalid number"))
+        .collect();
+
+    let median_val = median(&nums);
+    println!("Median of the array: {}", median_val);
+}
